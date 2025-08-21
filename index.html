@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love, Sex, and Marriage: A Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page {
+            min-height: 100vh;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+            display: none;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+        .page.active {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+        .chapter-title {
+            background: linear-gradient(90deg, #f43f5e, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-btn {
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        .quote {
+            border-left: 4px solid #f43f5e;
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .floating-heart {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+            animation: float 15s infinite ease-in-out;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        .content-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s ease;
+        }
+        .content-wrapper.expanded {
+            max-height: 5000px; /* Large enough to contain all content */
+        }
+        .progress-bar {
+            height: 4px;
+            width: 100%;
+            background: #e5e7eb;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f43f5e, #8b5cf6);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #splash-screen img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-serif text-gray-800 overflow-x-hidden">
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <img src="love.png" alt="Love">
+    </div>
+    <!-- Progress bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <!-- Floating decorative elements -->
+    <div class="floating-heart text-rose-400 text-6xl top-20 left-10" style="animation-delay: 0s;">❤</div>
+    <div class="floating-heart text-purple-400 text-8xl top-1/3 right-5" style="animation-delay: 2s;">❤</div>
+    <div class="floating-heart text-pink-300 text-5xl bottom-1/4 left-1/4" style="animation-delay: 4s;">❤</div>
+    <div class="floating-heart text-rose-200 text-7xl bottom-20 right-20" style="animation-delay: 6s;">❤</div>
+
+    <!-- Cover Page -->
+    <div id="cover" class="page active flex flex-col items-center justify-center p-8 text-center">
+        <div class="w-full h-64 md:h-96 mb-8 overflow-hidden rounded-xl shadow-lg">
+            <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                 alt="Couple holding hands" 
+                 class="w-full h-full object-cover object-center">
+        </div>
+        <div class="max-w-3xl mx-auto fade-in">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 chapter-title">Love, Sex, and Marriage</h1>
+            <h2 class="text-xl md:text-2xl text-gray-600 mb-8 italic">A Journey Through Desire, Illusion, and Truth</h2>
+            <div class="mb-12">
+                <p class="text-lg md:text-xl mb-4">"To seek is human. To hope is human. To accept what is given and what is withheld—that is where wisdom begins."</p>
+            </div>
+            <button onclick="navigateTo('chapter1')" class="bg-gradient-to-r from-rose-500 to-purple-600 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all nav-btn">
+                Begin the Journey <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chapter 1 -->
+    <div id="chapter1" class="page p-8 md:p-12">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="navigateTo('cover')" class="text-rose-500 hover:text-rose-700 text-lg nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+                <span class="text-gray-500">Chapter 1 of 7</span>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 chapter-title">The Beginning of Desire</h1>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+                <div class="w-full h-48 md:h-64 mb-6 overflow-hidden rounded-lg">
+                    <img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Attraction between people" 
+                         class="w-full h-full object-cover object-center">
+                </div>
+                <p class="text-lg mb-4">Every human heart begins its search with a yearning. We are drawn to others by a force we cannot fully explain, a longing for connection that is as old as time itself. The beginning of most journeys is desire, that first flicker of attraction that makes one soul notice another.</p>
+                
+                <div class="quote pl-6 my-6 text-gray-700 italic">
+                    <p>"This is where sex first enters the picture. It is the simplest and most instinctive of the three — lust in its purest form. It promises pleasure, closeness, and a taste of intimacy, though often without the foundation to sustain it."</p>
+                </div>
+                
+                <p class="text-lg mb-4">The truth is that sex is easy to find. It requires no commitment, no long investment, no steady patience. And for many, it becomes the substitute for love and marriage. Nights are filled with passion but mornings are empty. The body is satisfied, but the soul remains restless.</p>
+                
+                <div class="bg-rose-50 p-6 rounded-lg mt-6">
+                    <h3 class="font-bold text-lg text-rose-800 mb-2">The Biology of Attraction</h3>
+                    <p class="text-gray-700">Science tells us that initial attraction is driven by pheromones, visual cues, and subconscious signals. Our brains release dopamine and norepinephrine when we see someone we're attracted to, creating feelings of excitement and euphoria. This biological response is nature's way of ensuring procreation, but it's often mistaken for something deeper.</p>
+                </div>
+                
+                <div class="mt-6">
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">The Modern Dating Landscape</h3>
+                    <p class="text-lg mb-4">In today's digital age, the pursuit of connection has transformed dramatically. Dating apps offer endless possibilities, creating a paradox of choice where commitment becomes more difficult. The ease of finding sexual partners has never been greater, but the depth of connection has often become shallower.</p>
+                    <p class="text-lg">We swipe through potential partners as if browsing products, reducing human beings to curated images and brief bios. This commodification of relationships has changed how we approach desire, making it easier to find temporary satisfaction but harder to build lasting connections.</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-end mt-8">
+                <button onclick="navigateTo('chapter2')" class="bg-gradient-to-r from-rose-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all nav-btn">
+                    Next Chapter <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div id="chapter2" class="page p-8 md:p-12">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="navigateTo('chapter1')" class="text-rose-500 hover:text-rose-700 text-lg nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+                <span class="text-gray-500">Chapter 2 of 7</span>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 chapter-title">The Mirage of Love</h1>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+                <div class="w-full h-48 md:h-64 mb-6 overflow-hidden rounded-lg">
+                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Couple in love" 
+                         class="w-full h-full object-cover object-center">
+                </div>
+                <p class="text-lg mb-4">In our search for connection, we often confuse different forms of attachment. The initial spark of attraction feels like love, but is it? The comfort of familiarity feels like love, but is it? Society bombards us with images of perfect romance, setting unrealistic expectations that few relationships can fulfill.</p>
+                <p class="text-lg mb-4">Love is the dream that everyone seeks. We read about it, sing about it, and chase it in countless forms. It is supposed to be the deep connection that brings peace to the heart and meaning to the journey. Yet love is the most misunderstood of the three.</p>
+                
+                <div class="bg-rose-50 rounded-lg p-6 my-6 border-l-4 border-rose-400">
+                    <p class="text-lg font-medium text-rose-800">"Many confuse the thrill of lust with love. Others mistake the comfort of companionship for it. True love, however, is not simply attraction or convenience."</p>
+                </div>
+                
+                <p class="text-lg mb-4">But love is rare. Some find it for a season and lose it. Others never experience it fully, though they spend years searching. And so, many settle for fragments, hoping the fragments will be enough. A relationship built only on sex is called love. A marriage without intimacy is called love.</p>
+                
+                <p class="text-lg mb-6">Promises are dressed up in beautiful words, but in the silence of the night, the heart knows what is missing.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6 my-8">
+                    <div class="bg-purple-50 p-5 rounded-lg">
+                        <h3 class="font-bold text-lg text-purple-800 mb-2">Infatuation vs. Love</h3>
+                        <p class="text-gray-700">Infatuation is intense but fleeting, characterized by obsession and idealization. True love develops slowly, accepts imperfections, and grows stronger through challenges. Many relationships begin with infatuation but fail to transition into lasting love.</p>
+                    </div>
+                    <div class="bg-pink-50 p-5 rounded-lg">
+                        <h3 class="font-bold text-lg text-pink-800 mb-2">The Chemistry of Love</h3>
+                        <p class="text-gray-700">Science distinguishes between lust (driven by testosterone and estrogen), attraction (driven by dopamine, norepinephrine, and serotonin), and attachment (driven by oxytocin and vasopressin). Lasting relationships require all three systems to work in harmony.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg mt-6">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Cultural Variations of Love</h3>
+                    <p class="text-gray-700">Different cultures conceptualize love differently. Western cultures often emphasize passionate love and personal fulfillment, while Eastern cultures may prioritize companionate love and family harmony. These cultural narratives shape our expectations and experiences of love.</p>
+                    <p class="text-gray-700">The modern concept of romantic love is relatively new in human history. For centuries, marriage was primarily an economic arrangement, and romantic love was considered irrelevant or even dangerous to the stability of family structures.</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between mt-8">
+                <button onclick="navigateTo('chapter1')" class="text-rose-500 hover:text-rose-700 px-6 py-2 rounded-full text-lg font-medium border border-rose-500 hover:bg-rose-50 transition-all nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button onclick="navigateTo('chapter3')" class="bg-gradient-to-r from-rose-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all nav-btn">
+                    Next Chapter <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div id="chapter3" class="page p-8 md:p-12">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="navigateTo('chapter2')" class="text-rose-500 hover:text-rose-700 text-lg nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+                <span class="text-gray-500">Chapter 3 of 7</span>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 chapter-title">The Weight of Marriage</h1>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+                <div class="w-full h-48 md:h-64 mb-6 overflow-hidden rounded-lg">
+                    <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                         alt="Wedding rings" 
+                         class="w-full h-full object-cover object-center">
+                </div>
+                <p class="text-lg mb-4">The wedding day is often portrayed as the culmination of love's journey, but in truth, it's merely the beginning of a much more complex path. Marriage brings with it a weight of expectations - from society, from family, and most crucially, from ourselves and our partners.</p>
+                <p class="text-lg mb-4">Marriage is the grand symbol of permanence, the crown of the journey, the promise of life together. Society paints it as the final victory, the place where love and sex meet and live forever. Weddings are celebrated as if they mark the beginning of eternal happiness.</p>
+                
+                <div class="quote pl-6 my-6 text-gray-700 italic">
+                    <p>"But marriage in itself is not love, nor is it guaranteed to sustain sex in its fullness. Many step into marriage with expectations shaped by stories and songs, only to find themselves in a reality far less romantic."</p>
+                </div>
+                
+                <p class="text-lg mb-4">Marriage is not only about passion but also about duty. It requires sacrifice, compromise, forgiveness, and resilience. There are marriages built on love, and they flourish. There are marriages held together by duty alone, and they survive though without joy.</p>
+                
+                <p class="text-lg mb-6">The truth is that marriage is a container, and what it holds depends on what two people bring into it.</p>
+                
+                <div class="bg-blue-50 p-6 rounded-lg my-6">
+                    <h3 class="font-bold text-lg text-blue-800 mb-2">The Evolution of Marriage</h3>
+                    <p class="text-gray-700">Throughout history, the institution of marriage has transformed significantly. From arranged alliances between families to love-based partnerships, the purposes and expectations of marriage have continually evolved. In contemporary society, marriage is expected to fulfill emotional, romantic, and psychological needs that were previously distributed across extended families and communities.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 my-8">
+                    <div class="bg-rose-50 p-5 rounded-lg">
+                        <h3 class="font-bold text-lg text-rose-800 mb-2">Common Marital Challenges</h3>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                            <li>Communication breakdown</li>
+                            <li>Financial pressures and disagreements</li>
+                            <li>Division of household labor</li>
+                            <li>Parenting differences</li>
+                            <li>Changing priorities and personal growth</li>
+                            <li>Intimacy and sexual compatibility issues</li>
+                        </ul>
+                    </div>
+                    <div class="bg-purple-50 p-5 rounded-lg">
+                        <h3 class="font-bold text-lg text-purple-800 mb-2">Keys to Marital Success</h3>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                            <li>Effective communication skills</li>
+                            <li>Shared values and goals</li>
+                            <li>Emotional intelligence and empathy</li>
+                            <li>Conflict resolution abilities</li>
+                            <li>Maintaining individuality within partnership</li>
+                            <li>Continual investment in the relationship</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg mt-6">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">The Reality of Modern Marriage</h3>
+                    <p class="text-gray-700">Today, marriage faces unprecedented challenges. With longer life expectancies, partners may spend 50-60 years together—far longer than in previous generations. The emphasis on personal fulfillment and self-actualization within marriage creates both opportunities and pressures that earlier generations didn't face.</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between mt-8">
+                <button onclick="navigateTo('chapter2')" class="text-rose-500 hover:text-rose-700 px-6 py-2 rounded-full text-lg font-medium border border-rose-500 hover:bg-rose-50 transition-all nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button onclick="navigateTo('chapter4')" class="bg-gradient-to-r from-rose-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all nav-btn">
+                    Next Chapter <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 4 -->
+    <div id="chapter4" class="page p-8 md:p-12">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="navigateTo('chapter3')" class="text-rose-500 hover:text-rose-700 text-lg nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+                <span class="text-gray-500">Chapter 4 of 7</span>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 chapter-title">Illusions and Disappointments</h1>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+                <div class="w-full h-48 md:h-64 mb-6 overflow-hidden rounded-lg">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Disappointed couple" 
+                         class="w-full h-full object-cover object-center">
+                </div>
+                <p class="text-lg mb-4">The gap between expectation and reality is where disappointment grows. We enter relationships with dreams shaped by movies and novels, only to discover that real connection requires more than passion - it demands patience, forgiveness, and daily acts of love.</p>
+                <p class="text-lg mb-4">The modern world often sells the dream of having all three — love, sex, and marriage — in perfect harmony. People are told they can have passion, intimacy, and lifelong companionship all at once. And so they chase it, with hope burning brightly in their hearts.</p>
+                
+                <div class="bg-purple-50 rounded-lg p-6 my-6 border-l-4 border-purple-400">
+                    <p class="text-lg font-medium text-purple-800">"Yet many discover that the dream is more fragile than it appears. They find sex easily but cannot hold onto love. They marry, but the marriage feels empty, nothing like the life they imagined."</p>
+                </div>
+                
+                <p class="text-lg mb-6">The tragedy is not just in the absence of the other two, but in the hope that lingers. People continue to search, to believe the next lover, the next promise, the next marriage will be different. And sometimes it is, but often it is not.</p>
+                
+                <div class="bg-rose-50 p-6 rounded-lg my-6">
+                    <h3 class="font-bold text-lg text-rose-800 mb-2">The Comparison Trap</h3>
+                    <p class="text-gray-700">Social media exacerbates the illusion of perfect relationships. Couples present curated highlights of their lives, creating unrealistic benchmarks for others. The constant exposure to seemingly perfect relationships can make our own partnerships feel inadequate, fueling dissatisfaction and unrealistic expectations.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 my-8">
+                    <div class="p-5 rounded-lg border border-gray-200">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Common Relationship Illusions</h3>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                            <li>The belief that conflict means incompatibility</li>
+                            <li>Expecting a partner to fulfill all emotional needs</li>
+                            <li>Assuming love should always feel effortless</li>
+                            <li>Thinking passion will remain at initial intensity</li>
+                            <li>Believing there's one perfect soulmate</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-lg border border-gray-200">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Navigating Disappointment</h3>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                            <li>Practice radical acceptance of reality</li>
+                            <li>Distinguish between needs and wants</li>
+                            <li>Develop realistic expectations</li>
+                            <li>Focus on gratitude for what exists</li>
+                            <li>Invest in personal growth alongside relationship growth</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg mt-6">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">The Wisdom of Imperfection</h3>
+                    <p class="text-gray-700">Japanese philosophy of wabi-sabi finds beauty in imperfection and impermanence. Applying this to relationships means appreciating the unique flaws and quirks that make a partnership authentic. The cracks and repairs in a relationship often tell the most beautiful stories of resilience and commitment.</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between mt-8">
+                <button onclick="navigateTo('chapter3')" class="text-rose-500 hover:text-rose-700 px-6 py-2 rounded-full text-lg font-medium border border-rose-500 hover:bg-rose-50 transition-all nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button onclick="navigateTo('chapter5')" class="bg-gradient-to-r from-rose-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all nav-btn">
+                    Next Chapter <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 5 -->
+    <div id="chapter5" class="page p-8 md:p-12">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="navigateTo('chapter4')" class="text-rose-500 hover:text-rose-700 text-lg nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+                <span class="text-gray-500">Chapter 5 of 7</span>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 chapter-title">Amina and Joseph Revisited</h1>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+                <div class="w-full h-48 md:h-64 mb-6 overflow-hidden rounded-lg chapter-image">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1376&q=80" 
+                         alt="Long-term couple" 
+                         class="w-full h-full object-cover object-center">
+                </div>
+                <p class="text-lg mb-4">Their story mirrors countless others - the initial passion that fades into comfortable familiarity, the challenges of maintaining connection amidst life's demands. Yet their journey also reveals the quiet beauty of commitment that endures beyond the fireworks of early romance.</p>
+                <p class="text-lg mb-4">Consider again Amina and Joseph. Their journey began with lust, grew into love, and led to marriage. To many, they seemed to have all three. Yet even their story was not perfect.</p>
+                
+                <div class="quote pl-6 my-6 text-gray-700 italic">
+                    <p>"Years into their marriage, the passion waned. Responsibilities grew heavier, arguments became more frequent, and what once felt effortless now demanded deliberate effort."</p>
+                </div>
+                
+                <p class="text-lg mb-4">They loved each other, yes, but there were seasons when they questioned if love was enough. There were times when sex felt distant, when life together felt more like endurance than joy.</p>
+                
+                <p class="text-lg mb-6">This is the truth many couples discover. Love, sex, and marriage are not constant companions. They rise and fall, sometimes meeting, sometimes drifting apart. The story is not one of perfection, but of struggle and choice.</p>
+                
+                <div class="bg-blue-50 p-6 rounded-lg my-6">
+                    <h3 class="font-bold text-lg text-blue-800 mb-2">The Turning Point</h3>
+                    <p class="text-gray-700">Amina and Joseph's relationship reached a critical juncture in their seventh year of marriage. The demands of careers, financial pressures, and the arrival of children had gradually eroded their connection. They found themselves living parallel lives rather than shared ones, going through the motions of partnership without the emotional substance.</p>
+                    <p class="text-gray-700 mt-3">The crisis came during a seemingly trivial argument about household responsibilities that escalated into painful revelations about unmet needs and accumulated resentments. This confrontation, while painful, became the catalyst for change as it forced them to acknowledge the distance that had grown between them.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 my-8">
+                    <div class="p-5 rounded-lg bg-rose-50">
+                        <h3 class="font-bold text-lg text-rose-800 mb-2">What Almost Broke Them</h3>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                            <li>Unspoken expectations about roles and responsibilities</li>
+                            <li>Different approaches to conflict (avoidance vs confrontation)</li>
+                            <li>Neglected intimacy and physical connection</li>
+                            <li>Individual growth in different directions</li>
+                            <li>External pressures from work and family</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-lg bg-green-50">
+                        <h3 class="font-bold text-lg text-green-800 mb-2">What Saved Them</h3>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                            <li>Commitment to honest communication</li>
+                            <li>Willingness to seek professional help</li>
+                            <li>Rediscovering shared values and dreams</li>
+                            <li>Creating intentional time for connection</li>
+                            <li>Accepting imperfection in each other</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg mt-6">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">The New Normal</h3>
+                    <p class="text-gray-700">Amina and Joseph learned that love is not a static state but an active choice made daily. Their relationship today looks different from their early years—less fiery passion but deeper intimacy, fewer grand gestures but more consistent care. They discovered that the three elements of love, sex, and marriage don't always align perfectly, but with intention, they can coexist in a meaningful balance.</p>
+                    <p class="text-gray-700 mt-3">Their story illustrates that the most fulfilling relationships aren't those without problems, but those where partners learn to navigate challenges together, creating a unique tapestry woven from moments of joy, struggle, understanding, and renewal.</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between mt-8">
+                <button onclick="navigateTo('chapter4')" class="text-rose-500 hover:text-rose-700 px-6 py-2 rounded-full text-lg font-medium border border-rose-500 hover:bg-rose-50 transition-all nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button onclick="navigateTo('chapter6')" class="bg-gradient-to-r from-rose-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all nav-btn">
+                    Next Chapter <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 6 -->
+    <div id="chapter6" class="page p-8 md:p-12">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="navigateTo('chapter5')" class="text-rose-500 hover:text-rose-700 text-lg nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+                <span class="text-gray-500">Chapter 6 of 7</span>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 chapter-title">What We Seek, What We Find</h1>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+                <p class="text-lg mb-4">Every human being seeks love, sex, and marriage in one form or another. Some find them all, others only fragments. What matters is not the illusion of perfection, but the understanding of what each truly is.</p>
+                
+                <div class="grid md:grid-cols-3 gap-6 my-8">
+                    <div class="bg-rose-50 p-6 rounded-lg">
+                        <h3 class="font-bold text-lg text-rose-700 mb-2">Sex</h3>
+                        <p class="text-gray-700">Passion, immediate and physical. It can connect, but it cannot sustain. Sexual connection ranges from purely physical release to profound spiritual union. When integrated with emotional intimacy, it becomes a powerful bonding mechanism. When pursued alone, it often leaves emptiness in its wake.</p>
+                    </div>
+                    <div class="bg-purple-50 p-6 rounded-lg">
+                        <h3 class="font-bold text-lg text-purple-700 mb-2">Love</h3>
+                        <p class="text-gray-700">Intimacy, emotional and spiritual. It gives meaning, but it can fade without nurture. Love manifests in many forms: passionate eros, companionate philia, selfless agape, and playful ludus. Lasting love requires all these aspects to be nurtured throughout a relationship's different seasons.</p>
+                    </div>
+                    <div class="bg-indigo-50 p-6 rounded-lg">
+                        <h3 class="font-bold text-lg text-indigo-700 mb-2">Marriage</h3>
+                        <p class="text-gray-700">Commitment, social and enduring. It provides structure, but without love and intimacy, it can become a prison. Marriage offers a container for growth, a witness to one's life, and a partnership for navigating challenges. Its value lies not in the ceremony but in the daily choice to honor commitment.</p>
+                    </div>
+                </div>
+                
+                <p class="text-lg mb-6">To expect all three in perfect balance is to expect the rarest of gifts. Yet knowing their differences allows one to walk wisely, to understand what is found, and to grieve honestly for what is missing.</p>
+                
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-8">
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">Reflection Questions:</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                        <li>Which of these three elements feels most present in your life right now?</li>
+                        <li>Which one do you find yourself longing for most intensely?</li>
+                        <li>How might you honor what you have while honestly acknowledging what's missing?</li>
+                        <li>What cultural or personal expectations shape your desires for love, sex, and marriage?</li>
+                        <li>How do you define a "successful" relationship, and where did that definition come from?</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-rose-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-lg text-rose-800 mb-2">The Interplay of Elements</h3>
+                    <p class="text-gray-700">The healthiest relationships recognize that love, sex, and marriage each have their seasons of prominence. There are times when sexual connection takes center stage, times when emotional intimacy needs more attention, and times when the structural aspects of marriage require reinforcement. The art of relationship maintenance lies in recognizing which element needs nourishment at which time.</p>
+                </div>
+                
+                <div class="p-6 rounded-lg bg-gradient-to-r from-rose-100 to-purple-100 mt-8">
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">Creating Your Own Definition</h3>
+                    <p class="text-gray-700">Rather than measuring your relationship against external standards, consider what balance of love, sex, and marriage works for you and your partner. Some couples thrive with less conventional arrangements—prioritizing emotional intimacy over sexual passion, or finding commitment outside traditional marriage structures. The key is honest communication and mutual agreement about what fulfills both partners.</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between mt-8">
+                <button onclick="navigateTo('chapter5')" class="text-rose-500 hover:text-rose-700 px-6 py-2 rounded-full text-lg font-medium border border-rose-500 hover:bg-rose-50 transition-all nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button onclick="navigateTo('chapter7')" class="bg-gradient-to-r from-rose-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all nav-btn">
+                    Next Chapter <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 7 -->
+    <div id="chapter7" class="page p-8 md:p-12">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="navigateTo('chapter6')" class="text-rose-500 hover:text-rose-700 text-lg nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+                <span class="text-gray-500">Chapter 7 of 7</span>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 chapter-title">The Quiet Truth</h1>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+                <div class="w-full h-48 md:h-64 mb-6 overflow-hidden rounded-lg">
+                    <img src="https://images.unsplash.com/photo-1493863641943-9b68992a8d07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1458&q=80" 
+                         alt="Elderly couple holding hands" 
+                         class="w-full h-full object-cover object-center">
+                </div>
+                <p class="text-lg mb-4">The quiet truth is that most people do not have it all. They may find love but not marriage. They may have marriage but no love. They may enjoy sex but never feel intimacy. This is the reality hidden behind smiles and ceremonies.</p>
+                
+                <div class="bg-gradient-to-r from-rose-100 to-purple-100 rounded-lg p-8 my-8 text-center">
+                    <p class="text-xl font-medium text-gray-800">"Yet within this truth lies freedom. To understand that love, sex, and marriage are not guaranteed to walk together is to release the illusion that perfection is owed to anyone."</p>
+                </div>
+                
+                <p class="text-lg mb-4">What matters is honesty, the courage to admit what you have and what you lack, and the wisdom to cherish what is real rather than cling to what is imagined.</p>
+                
+                <p class="text-lg mb-6">The journey of love, sex, and marriage is not a fairy tale. It is a path through desire, illusion, disappointment, and sometimes, if one is fortunate, fulfillment. It is not the same for everyone, but in the end, it teaches every soul the same lesson. To seek is human. To hope is human. To accept what is given and what is withheld—that is where wisdom begins.</p>
+                
+                <div class="bg-blue-50 p-6 rounded-lg my-6">
+                    <h3 class="font-bold text-lg text-blue-800 mb-2">The Gift of Presence</h3>
+                    <p class="text-gray-700">The ultimate wisdom in matters of the heart may lie in being fully present with what is, rather than constantly longing for what might be. This doesn't mean abandoning hope or ceasing to work toward better relationships, but rather finding peace in the current reality while taking intentional steps toward desired changes.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 my-8">
+                    <div class="p-5 rounded-lg bg-rose-50">
+                        <h3 class="font-bold text-lg text-rose-800 mb-2">Signs of Healthy Integration</h3>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                            <li>Ability to discuss needs and disappointments openly</li>
+                            <li>Willingness to adapt as individuals and relationships change</li>
+                            <li>Appreciation for what exists without denying what's missing</li>
+                            <li>Balance between independence and connection</li>
+                            <li>Recognition that all relationships have seasons</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-lg bg-purple-50">
+                        <h3 class="font-bold text-lg text-purple-800 mb-2">Continuing the Journey</h3>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                            <li>Practice regular check-ins with yourself and your partner</li>
+                            <li>Seek wisdom from various sources, not just popular culture</li>
+                            <li>Develop resilience for relationship challenges</li>
+                            <li>Cultivate friendships and support beyond your primary relationship</li>
+                            <li>Remember that your worth isn't defined by relationship status</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="p-6 rounded-lg bg-gray-50 mt-6 text-center">
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">Final Reflection</h3>
+                    <p class="text-gray-700 italic">"Perhaps the deepest intimacy comes not from finding a perfect match, but from learning to dance with imperfection—in ourselves, our partners, and the relationships we build. The most profound love stories aren't those without struggles, but those where people choose to grow through challenges together, creating something uniquely beautiful from the raw materials of their shared humanity."</p>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center mt-12 gap-4">
+                <button onclick="navigateTo('chapter6')" class="text-rose-500 hover:text-rose-700 px-6 py-2 rounded-full text-lg font-medium border border-rose-500 hover:bg-rose-50 transition-all nav-btn w-full md:w-auto">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous Chapter
+                </button>
+                <button onclick="navigateTo('cover')" class="bg-gradient-to-r from-rose-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all nav-btn w-full md:w-auto">
+                    <i class="fas fa-home mr-2"></i> Return to Beginning
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 'cover';
+        
+        function navigateTo(pageId) {
+            // Update progress bar
+            const progressPercentage = (parseInt(pageId.replace('chapter', '')) / 7) * 100;
+            document.getElementById('progress').style.width = pageId === 'cover' ? '0%' : `${progressPercentage}%`;
+            
+            // Hide current page
+            document.getElementById(currentPage).classList.remove('active');
+            
+            // Show the selected page
+            document.getElementById(pageId).classList.add('active');
+            currentPage = pageId;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Initialize - show splash screen first, then show cover page
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                navigateTo('cover');
+            }, 3000); // 3000ms = 3 seconds
+        });
+    </script>
+</body>
+</html>
